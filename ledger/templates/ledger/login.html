@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log In - Credit Ledger</title>
 <style>
     * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,sans-serif; }
@@ -38,6 +39,16 @@
     .error { background:#fbeceb; color:#b3372c; font-size:13px; padding:10px 12px; border-radius:8px; margin-bottom:16px; }
     .footer-note { text-align:center; font-size:12px; color:#a3aea6; margin-top:20px; }
     .footer-note a { color:#1f3d2e; }
+
+
+    @media (max-width: 480px) {
+        body { padding:20px 14px; align-items:flex-start; }
+        .card { padding:28px 20px; }
+        .input-wrap input { font-size:16px; }
+        .row { flex-wrap:wrap; gap:10px; }
+    }
+</style>
+
 </style>
 </head>
 <body>
