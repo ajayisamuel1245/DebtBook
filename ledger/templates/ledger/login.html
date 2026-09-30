@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Log In - Credit Ledger</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,sans-serif; }
+    body { min-height:100vh; background:#eef2ec; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+    .card { background:#fdfdfb; border:1px solid #e3e8e0; border-radius:14px; padding:44px 40px; width:100%; max-width:420px; }
+    .logo { text-align:center; margin-bottom:34px; }
+    .logo h2 { color:#1f3d2e; font-size:22px; letter-spacing:0.5px; }
+    .logo p { color:#6b7a6f; font-size:13px; margin-top:2px; }
+    h1 { color:#1f3d2e; font-size:24px; margin-bottom:4px; }
+    .lead { color:#6b7a6f; font-size:14px; margin-bottom:26px; }
+    .field { margin-bottom:18px; }
+    .field label { display:block; font-size:13px; font-weight:600; color:#1f3d2e; margin-bottom:6px; }
+    .input-wrap { position:relative; }
+    .input-wrap svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); opacity:0.5; }
+    .input-wrap input {
+        width:100%; padding:13px 14px 13px 40px; border:1px solid #dfe3dc; border-radius:8px;
+        font-size:14px; background:#fdfcf8;
+    }
+    .input-wrap input:focus { outline:none; border-color:#1f3d2e; }
+    .row { display:flex; justify-content:space-between; align-items:center; font-size:13px; margin-bottom:22px; }
+    .row a { color:#1f3d2e; font-weight:600; text-decoration:none; }
+    .remember { display:flex; align-items:center; gap:6px; color:#6b7a6f; }
+    .submit-btn {
+        width:100%; padding:14px; background:#1f3d2e; color:white; border:none; border-radius:8px;
+        font-size:15px; font-weight:600; cursor:pointer;
+    }
+    .submit-btn:hover { background:#16291f; }
+    .divider { display:flex; align-items:center; gap:12px; margin:22px 0; color:#a3aea6; font-size:13px; }
+    .divider::before, .divider::after { content:''; flex:1; height:1px; background:#e3e8e0; }
+    .secondary-btn {
+        width:100%; padding:13px; background:transparent; color:#1f3d2e; border:1px solid #dfe3dc;
+        border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; text-align:center; text-decoration:none; display:block;
+    }
+    .error { background:#fbeceb; color:#b3372c; font-size:13px; padding:10px 12px; border-radius:8px; margin-bottom:16px; }
+    .footer-note { text-align:center; font-size:12px; color:#a3aea6; margin-top:20px; }
+    .footer-note a { color:#1f3d2e; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">
+        <h2>CREDIT LEDGER</h2>
+        <p>For Small Traders</p>
+    </div>
+    <h1>Welcome back</h1>
+    <p class="lead">Log in to your account to continue.</p>
+
+    {% if error %}<div class="error">{{ error }}</div>{% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label>Email Address</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
+                <input type="email" name="email" placeholder="e.g. trader@email.com" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Password</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+        </div>
+        <div class="row">
+            <label class="remember"><input type="checkbox"> Remember me</label>
+            <a href="#">Forgot password?</a>
+        </div>
+        <button type="submit" class="submit-btn">Log In →</button>
+    </form>
+
+    <div class="divider">or</div>
+    <a href="{% url 'signup' %}" class="secondary-btn">Create an account →</a>
+
+    <p class="footer-note">By logging in, you agree to our Terms of Service and Privacy Policy.</p>
+</div>
+</body>
+</html>

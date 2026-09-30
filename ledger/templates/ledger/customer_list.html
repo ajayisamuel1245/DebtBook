@@ -1,0 +1,37 @@
+{% extends 'ledger/master.html' %}
+
+{% block title %}Customers - Credit Ledger{% endblock %}
+
+{% block content %}
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+    <p style="font-size:19px;font-weight:600;margin:0;">Customers</p>
+    <a href="{% url 'customer_add' %}" style="padding:10px 16px;background:#1f3d2e;color:#fdfcf8;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">+ Add customer</a>
+</div>
+
+<form method="get" style="margin-bottom:16px;max-width:360px;">
+    <input type="text" name="q" value="{{ query }}" placeholder="Search by name or phone"
+           style="width:100%;padding:10px 12px;border:1px solid #dfe3dc;border-radius:8px;font-size:13px;">
+</form>
+
+<div style="background:#ffffff;border:1px solid #e3e8e0;border-radius:10px;overflow:hidden;">
+    {% if customers %}
+        {% for customer in customers %}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;{% if not forloop.last %}border-bottom:1px solid #eef2ec;{% endif %}">
+            <div>
+                <a href="{% url 'customer_detail' customer.pk %}" style="font-size:14px;font-weight:600;margin:0;color:#1f3d2e;text-decoration:none;">{{ customer.name }}</a>
+                <p style="font-size:12px;color:#6b7a6f;margin:2px 0 0;">{{ customer.phone }}</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;">
+                <span style="font-size:13px;font-weight:600;color:{% if customer.balance > 0 %}#b3372c{% else %}#3b6d11{% endif %};">
+                    {% if customer.balance > 0 %}₦{{ customer.balance|floatformat:0 }}{% else %}Settled{% endif %}
+                </span>
+                <a href="{% url 'customer_edit' customer.pk %}" style="font-size:12px;color:#1f3d2e;text-decoration:none;">Edit</a>
+                <a href="{% url 'customer_delete' customer.pk %}" style="font-size:12px;color:#b3372c;text-decoration:none;">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="padding:20px;font-size:13px;color:#a3aea6;">No customers yet. Add your first one to get started.</p>
+    {% endif %}
+</div>
+{% endblock %}

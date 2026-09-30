@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Credit Ledger{% endblock %}</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,sans-serif; }
+        body { background:#fdfcf8; color:#1f3d2e; }
+        .app-shell { display:flex; min-height:100vh; }
+
+        /* Sidebar */
+        .sidebar {
+            width:220px; background:#1f3d2e; padding:20px 14px;
+            display:flex; flex-direction:column; flex-shrink:0;
+        }
+        .brand { display:flex; align-items:center; gap:10px; padding:0 6px 24px; }
+        .brand-icon {
+            width:32px; height:32px; background:#fdfcf8; border-radius:7px;
+            display:flex; align-items:center; justify-content:center; color:#1f3d2e; font-weight:700; font-size:13px;
+        }
+        .brand-text strong { display:block; font-size:14px; color:#fdfcf8; }
+        .brand-text span { font-size:10px; color:#9fb0a3; }
+        .nav-item {
+            display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px;
+            color:#c9d4cc; font-size:13px; text-decoration:none; margin-bottom:2px;
+        }
+        .nav-item:hover { background:#28483770; }
+        .nav-item.active { background:#fdfcf8; color:#1f3d2e; font-weight:600; }
+        .sidebar-footer { margin-top:auto; padding-top:12px; border-top:1px solid #2c4b3b; }
+        .user-mini { display:flex; align-items:center; gap:8px; padding:8px 6px; }
+        .user-avatar {
+            width:30px; height:30px; border-radius:50%; background:#345c47;
+            display:flex; align-items:center; justify-content:center; color:#fdfcf8; font-size:12px; font-weight:600;
+        }
+        .user-mini p { font-size:12px; color:#fdfcf8; margin:0; }
+        .user-mini span { font-size:10px; color:#9fb0a3; }
+
+        /* Header */
+        .main { flex:1; min-width:0; display:flex; flex-direction:column; }
+        .topbar {
+            display:flex; align-items:center; justify-content:space-between;
+            padding:14px 24px; background:#ffffff; border-bottom:1px solid #e3e8e0;
+        }
+        .search-wrap { position:relative; flex:1; max-width:360px; margin:0 20px; }
+        .search-wrap input {
+            width:100%; padding:9px 12px 9px 34px; border:1px solid #dfe3dc; border-radius:8px;
+            font-size:13px; background:#fdfcf8;
+        }
+        .topbar-right { display:flex; align-items:center; gap:16px; }
+
+        .content { padding:22px 24px; flex:1; }
+    </style>
+</head>
+<body>
+    <div class="app-shell">
+
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">CL</div>
+                <div class="brand-text">
+                    <strong>DEBTBOOK</strong>
+                    <span>Credit Ledger</span>
+                </div>
+            </div>
+
+            <a href="{% url 'dashboard' %}" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">Dashboard</a>
+            <a href="{% url 'customer_list' %}" class="nav-item {% if active_page == 'customers' %}active{% endif %}">Customers</a>
+            <a href="#" class="nav-item {% if active_page == 'transactions' %}active{% endif %}">Transactions</a>
+            <a href="{% url 'monthly_summary' %}" class="nav-item {% if active_page == 'reports' %}active{% endif %}">Reports</a>
+            <a href="{% url 'statement_directory' %}" class="nav-item {% if active_page == 'statements' %}active{% endif %}">Statements</a>
+
+            <div class="sidebar-footer">
+                <div class="user-mini">
+                    <div class="user-avatar">{{ trader.business_name|slice:":2"|upper }}</div>
+                    <div>
+                        <p>{{ trader.business_name }}</p>
+                        <span>Trader</span>
+                    </div>
+                </div>
+                <a href="{% url 'logout' %}" class="nav-item" style="margin-top:6px;">Logout</a>
+            </div>
+        </aside>
+
+        <div class="main">
+            <div class="topbar">
+                <form method="get" action="{% url 'customer_list' %}" class="search-wrap">
+                    <input type="text" name="q" placeholder="Search customers by name or phone">
+                </form>
+                <div class="topbar-right">
+                    <span>🔔</span>
+                    <span>{{ trader.business_name }}</span>
+                </div>
+            </div>
+
+            <div class="content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

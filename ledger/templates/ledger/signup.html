@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign Up - Credit Ledger</title>
+<style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system,sans-serif; }
+    body { min-height:100vh; background:#eef2ec; display:flex; align-items:center; justify-content:center; padding:40px 20px; }
+    .card { background:#fdfdfb; border:1px solid #e3e8e0; border-radius:14px; padding:44px 40px; width:100%; max-width:440px; }
+    .logo { text-align:center; margin-bottom:30px; }
+    .logo h2 { color:#1f3d2e; font-size:22px; letter-spacing:0.5px; }
+    .logo p { color:#6b7a6f; font-size:13px; margin-top:2px; }
+    h1 { color:#1f3d2e; font-size:24px; margin-bottom:4px; }
+    .lead { color:#6b7a6f; font-size:14px; margin-bottom:24px; }
+    .field { margin-bottom:16px; }
+    .field label { display:block; font-size:13px; font-weight:600; color:#1f3d2e; margin-bottom:6px; }
+    .input-wrap { position:relative; }
+    .input-wrap svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); opacity:0.5; }
+    .input-wrap input {
+        width:100%; padding:13px 14px 13px 40px; border:1px solid #dfe3dc; border-radius:8px;
+        font-size:14px; background:#fdfcf8;
+    }
+    .input-wrap input:focus { outline:none; border-color:#1f3d2e; }
+    .submit-btn {
+        width:100%; padding:14px; background:#1f3d2e; color:white; border:none; border-radius:8px;
+        font-size:15px; font-weight:600; cursor:pointer; margin-top:8px;
+    }
+    .submit-btn:hover { background:#16291f; }
+    .error-list { background:#fbeceb; color:#b3372c; font-size:13px; padding:10px 12px; border-radius:8px; margin-bottom:16px; list-style:none; }
+    .footer-note { text-align:center; font-size:12px; color:#a3aea6; margin-top:20px; }
+    .footer-note a { color:#1f3d2e; }
+    .login-note { text-align:center; font-size:13px; color:#6b7a6f; margin-top:12px; }
+    .login-note a { color:#1f3d2e; font-weight:600; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="card">
+    <div class="logo">
+        <h2>CREDIT LEDGER</h2>
+        <p>For Small Traders</p>
+    </div>
+    <h1>Create your account</h1>
+    <p class="lead">Get started with Credit Ledger in a few simple steps.</p>
+
+    {% if form.errors %}
+        <ul class="error-list">
+            {% for field in form %}{% for error in field.errors %}<li>{{ error }}</li>{% endfor %}{% endfor %}
+            {% for error in form.non_field_errors %}<li>{{ error }}</li>{% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="field">
+            <label>Full Name</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                <input type="text" name="full_name" placeholder="e.g. Ajayi Samuel" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Email Address</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
+                <input type="email" name="email" placeholder="e.g. trader@email.com" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Phone Number</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2C9.5 21 3 14.5 3 6a2 2 0 012-2z"/></svg>
+                <input type="text" name="phone" placeholder="e.g. 0803 123 4567" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Business Name</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+                <input type="text" name="business_name" placeholder="e.g. Ajayi Stores" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Password</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                <input type="password" name="password" placeholder="Create a password" required>
+            </div>
+        </div>
+        <div class="field">
+            <label>Confirm Password</label>
+            <div class="input-wrap">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1f3d2e" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+                <input type="password" name="confirm_password" placeholder="Confirm your password" required>
+            </div>
+        </div>
+        <button type="submit" class="submit-btn">Create Account →</button>
+    </form>
+
+    <p class="login-note">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+    <p class="footer-note">By creating an account, you agree to our Terms of Service and Privacy Policy.</p>
+</div>
+</body>
+</html>

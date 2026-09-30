@@ -1,0 +1,78 @@
+{% extends 'ledger/master.html' %}
+
+{% block title %}Dashboard - Credit Ledger{% endblock %}
+
+{% block content %}
+<p style="font-size:19px;font-weight:600;margin-bottom:20px;">Good morning, {{ trader.business_name }} 👋</p>
+
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;">
+    <div style="background:#eef2ec;border-radius:10px;padding:14px 16px;">
+        <p style="font-size:11px;color:#6b7a6f;margin:0 0 4px;">Total money owed</p>
+        <p style="font-size:20px;font-weight:600;margin:0;">₦{{ total_owed|floatformat:0 }}</p>
+        <p style="font-size:11px;color:#6b7a6f;margin:4px 0 0;">{{ customers_owing_count }} customers owing</p>
+    </div>
+    <div style="background:#eef2ec;border-radius:10px;padding:14px 16px;">
+        <p style="font-size:11px;color:#6b7a6f;margin:0 0 4px;">Customers owing</p>
+        <p style="font-size:20px;font-weight:600;margin:0;">{{ customers_owing_count }}</p>
+        <p style="font-size:11px;color:#6b7a6f;margin:4px 0 0;">of {{ total_customers }} customers</p>
+    </div>
+    <div style="background:#eef2ec;border-radius:10px;padding:14px 16px;">
+        <p style="font-size:11px;color:#6b7a6f;margin:0 0 4px;">Recovered this month</p>
+        <p style="font-size:20px;font-weight:600;color:#3b6d11;margin:0;">₦{{ recovered_this_month|floatformat:0 }}</p>
+    </div>
+    <div style="background:#eef2ec;border-radius:10px;padding:14px 16px;">
+        <p style="font-size:11px;color:#6b7a6f;margin:0 0 4px;">Credit given this month</p>
+        <p style="font-size:20px;font-weight:600;color:#b3372c;margin:0;">₦{{ credit_given_this_month|floatformat:0 }}</p>
+    </div>
+</div>
+
+<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:16px;">
+    <div style="background:#ffffff;border:1px solid #e3e8e0;border-radius:10px;padding:14px 16px;">
+        <p style="font-size:12px;font-weight:600;color:#6b7a6f;margin:0 0 10px;text-transform:uppercase;">Recent transactions</p>
+        {% if recent_transactions %}
+            <div style="display:grid;grid-template-columns:1fr 0.7fr 1.3fr 0.8fr 0.8fr;font-size:11px;color:#a3aea6;padding-bottom:6px;">
+                <span>Customer</span><span>Type</span><span>Description</span><span>Amount</span><span>Date</span>
+            </div>
+            {% for entry in recent_transactions %}
+            <div style="display:grid;grid-template-columns:1fr 0.7fr 1.3fr 0.8fr 0.8fr;font-size:12px;padding:7px 0;border-top:1px solid #eef2ec;">
+                <span>{{ entry.customer.name }}</span>
+                <span style="color:{% if entry.entry_type == 'credit' %}#b3372c{% else %}#3b6d11{% endif %};">{{ entry.get_entry_type_display }}</span>
+                <span>{{ entry.description|default:"—" }}</span>
+                <span>₦{{ entry.amount|floatformat:0 }}</span>
+                <span>{{ entry.date|date:"M d" }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size:13px;color:#a3aea6;">No transactions recorded yet.</p>
+        {% endif %}
+    </div>
+
+    <div style="background:#ffffff;border:1px solid #e3e8e0;border-radius:10px;padding:14px 16px;">
+        <p style="font-size:12px;font-weight:600;color:#6b7a6f;margin:0 0 10px;text-transform:uppercase;">Biggest debtors</p>
+        {% if biggest_debtors %}
+            {% for customer, balance in biggest_debtors %}
+            <div style="display:flex;justify-content:space-between;padding:6px 0;{% if not forloop.last %}border-bottom:1px solid #eef2ec;{% endif %}font-size:12px;">
+                <span>{{ forloop.counter }}. {{ customer.name }}</span>
+                <span style="font-weight:600;color:#b3372c;">₦{{ balance|floatformat:0 }}</span>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="font-size:13px;color:#a3aea6;">No outstanding debtors.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div style="background:#ffffff;border:1px solid #e3e8e0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+    <p style="font-size:12px;font-weight:600;color:#6b7a6f;margin:0 0 10px;text-transform:uppercase;">Quick actions</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <a href="{% url 'customer_add' %}" style="text-align:center;padding:10px;background:#1f3d2e;color:#fdfcf8;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">+ Add customer</a>
+        <a href="{% url 'transaction_add' 'credit' %}" style="text-align:center;padding:10px;background:#fbeceb;color:#b3372c;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">Record credit</a>
+        <a href="{% url 'transaction_add' 'payment' %}" style="text-align:center;padding:10px;background:#eaf3de;color:#3b6d11;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">Record payment</a>
+        <a href="#" style="text-align:center;padding:10px;background:#eef2ec;color:#1f3d2e;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;">Send message</a>
+    </div>
+</div>
+
+<div style="display:flex;align-items:center;gap:8px;background:#eef2ec;border-radius:8px;padding:10px 14px;">
+    <p style="font-size:12px;color:#3d4a3f;margin:0;">Keep your records up to date — log every credit and payment as it happens.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'ledger/master.html' %}
+
+{% block title %}Statements - Credit Ledger{% endblock %}
+
+{% block content %}
+<p style="font-size:19px;font-weight:600;margin-bottom:20px;">Statements</p>
+
+<div style="background:#ffffff;border:1px solid #e3e8e0;border-radius:10px;overflow:hidden;">
+    {% if customer_links %}
+        {% for item in customer_links %}
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;{% if not forloop.last %}border-bottom:1px solid #eef2ec;{% endif %}">
+            <div>
+                <p style="font-size:14px;font-weight:600;margin:0;">{{ item.customer.name }}</p>
+                <p style="font-size:12px;color:#6b7a6f;margin:2px 0 0;word-break:break-all;">{{ item.url }}</p>
+            </div>
+            <a href="{{ item.url }}" target="_blank" style="padding:8px 14px;background:#eef2ec;color:#1f3d2e;border-radius:7px;font-size:12px;font-weight:600;text-decoration:none;white-space:nowrap;margin-left:16px;">Open</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="padding:20px;font-size:13px;color:#a3aea6;">No customers yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
